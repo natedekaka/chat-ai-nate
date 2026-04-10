@@ -255,7 +255,8 @@
         <button id="sendBtn" onclick="send()">Kirim</button>
     </div>
     <footer>
-        <button onclick="clearChat()">🗑️ Hapus Chat</button>
+        <button onclick="shareChat()">📤 Share</button>
+        <button onclick="clearChat()">🗑️ Hapus</button>
         <span>by natedekaka</span>
     </footer>
 
@@ -299,6 +300,21 @@
                 messages.push({ text: el.childNodes[0].textContent, isUser: el.classList.contains('user') });
             });
             localStorage.setItem('chatHistory', JSON.stringify(messages));
+        }
+        
+        function shareChat() {
+            let chatText = "🗨️ Chat AI Nate\n\n";
+            document.querySelectorAll('.msg').forEach(el => {
+                const sender = el.classList.contains('user') ? "👤 Kamu" : "🤖 AI";
+                chatText += sender + ": " + el.childNodes[0].textContent + "\n\n";
+            });
+            if (navigator.share) {
+                navigator.share({ text: chatText }).catch(() => {});
+            } else {
+                navigator.clipboard.writeText(chatText).then(() => {
+                    alert("Chat disalin ke clipboard!");
+                });
+            }
         }
         
         function clearChat() {
