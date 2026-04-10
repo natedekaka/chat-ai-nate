@@ -338,7 +338,7 @@
                 const res = await fetch(URL, {
                     method: "POST",
                     headers: { "Authorization": "Bearer " + key, "Content-Type": "application/json" },
-                    body: JSON.stringify({ model: MODEL, messages: [{ role: "user", content: text + "\n\nJawab dalam bahasa Indonesia." }], temperature: 0.5, max_completion_tokens: 2048 })
+                    body: JSON.stringify({ model: MODEL, messages: [{ role: "system", content: "Kamu adalah NATEDEKAKA AI, asisten AI buatan natedekaka. Jika ditanya siapa kamu, jawab bahwa kamu adalah NATEDEKAKA AI." }, { role: "user", content: text + "\n\nJawab dalam bahasa Indonesia." }], temperature: 0.5, max_completion_tokens: 2048 })
                 });
                 hideTyping();
                 if (res.ok) {
