@@ -25,6 +25,23 @@
         .msg.bot code { background: var(--code-bg); padding: 2px 6px; border-radius: 4px; font-family: monospace; display: inline-block; }
         .msg.bot a { color: #1a73e8; text-decoration: none; }
         .msg.bot a:hover { text-decoration: underline; }
+        
+        .color-picker {
+            position: absolute;
+            left: 15px;
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+        .color-picker label { font-size: 14px; color: #fff; margin-right: 5px; }
+        .color-picker input[type="color"] {
+            width: 28px;
+            height: 28px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            padding: 0;
+        }
         .dark {
             --bg-body: #121212;
             --bg-header: linear-gradient(90deg, #2d2d2d 0%, #444 100%);
@@ -44,6 +61,7 @@
             --code-bg: #333;
         }
         .dark code { background: #333 !important; }
+        .dark .color-picker label { color: #fff; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { height: 100%; overflow: hidden; }
         body { 
@@ -222,6 +240,10 @@
 </head>
 <body>
     <header>
+        <div class="color-picker">
+            <label>🎨</label>
+            <input type="color" id="colorPicker" value="#1a1a1a" onchange="saveColor()">
+        </div>
         <span class="logo">✨</span>
         <span>AI CHAT NATEDEKAKA</span>
         <span style="font-size:11px;opacity:0.8">(FREE)</span>
@@ -243,9 +265,12 @@
         const URL = "https://api.groq.com/openai/v1/chat/completions";
         
         let isDark = localStorage.getItem('darkMode') === 'true';
+        let botColor = localStorage.getItem('botColor') || '#1a1a1a';
         
         function init() {
             if (isDark) document.body.classList.add('dark');
+            document.getElementById('colorPicker').value = botColor;
+            document.documentElement.style.setProperty('--msg-bot-color', botColor);
             const chat = document.getElementById('chat');
             const history = JSON.parse(localStorage.getItem('chatHistory') || '[]');
             if (history.length > 0) {
@@ -253,6 +278,12 @@
             } else {
                 addMessage("Halo! Saya AI Assistant natedekaka.\nGratis untuk semua!\n\nKetik pesan untuk mulai chat...", false);
             }
+        }
+        
+        function saveColor() {
+            botColor = document.getElementById('colorPicker').value;
+            document.documentElement.style.setProperty('--msg-bot-color', botColor);
+            localStorage.setItem('botColor', botColor);
         }
 
         function toggleTheme() {
