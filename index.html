@@ -148,6 +148,11 @@
             margin-top: 2px;
         }
         .msg.bot:hover .copy-btn { opacity: 1; }
+        .timestamp {
+            font-size: 10px;
+            color: #999;
+            margin-top: 4px;
+        }
         
         .input-area { 
             background: var(--bg-chat); 
@@ -364,6 +369,11 @@
                 };
                 div.appendChild(copyBtn);
             }
+            
+            const time = document.createElement("div");
+            time.className = "timestamp";
+            time.textContent = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+            div.appendChild(time);
             
             document.getElementById("chat").appendChild(div);
             if (!skipSave) saveHistory();
